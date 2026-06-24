@@ -7,8 +7,6 @@ class MyDocument extends Document {
   }
 
   render() {
-
-
     return (
       <Html lang="en">
         <Head>
@@ -31,7 +29,14 @@ class MyDocument extends Document {
             href="/favicon-16x16.png"
           />
           <link rel="manifest" href="/site.webmanifest" />
-          <script async defer data-website-id="f0f50055-bb6f-49ae-9813-939b566c32dc" data-host-url="https://umami-seven-weld.vercel.app/" src="https://www.lando.blog/_umami.js" data-domains="www.lando.blog,lando.blog"></script>
+          <script
+            async
+            defer
+            data-website-id="f0f50055-bb6f-49ae-9813-939b566c32dc"
+            data-host-url="https://umami-seven-weld.vercel.app/"
+            src="https://blog.alvin.land/_umami.js"
+            data-domains="blog.alvin.land"
+          ></script>
         </Head>
         <body>
           <Main />

@@ -7,14 +7,14 @@ import Head from 'next/head'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import NProgress from 'nprogress'
-import useScrollRestoration from '../utils/hooks/useScrollRestoration';
+import useScrollRestoration from '../utils/hooks/useScrollRestoration'
 
 import '../styles/main.css'
 import '../styles/nprogress.css'
 
 export default function Nextra({ Component, pageProps }) {
   const router = useRouter()
-  useScrollRestoration(router);
+  useScrollRestoration(router)
 
   NProgress.configure({ showSpinner: false })
 
@@ -38,9 +38,9 @@ export default function Nextra({ Component, pageProps }) {
   }, [router])
 
   const meta = {
-    title: 'Lando.blog.',
+    title: 'A.blog.',
     description:
-      'Mostly Javascript, Node.js, Next.js, React.js, Whateversupnext.js',
+      'Mostly Javascript, Node.js, Next.js, React.js, Whateversupnext.js'
   }
 
   return (

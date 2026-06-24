@@ -2,13 +2,13 @@ const YEAR = new Date().getFullYear()
 
 export default {
   cusdis: {
-    appId: process.env.NEXT_PUBLIC_CUSDIS_APP_ID,
+    appId: process.env.NEXT_PUBLIC_CUSDIS_APP_ID
   },
   darkMode: true,
   footer: (
     <footer>
       <small>
-        <time>{YEAR}</time> © lando.
+        <time>{YEAR}</time> © alvin.land
         <a href="/feed.xml">RSS</a>
       </small>
       <style jsx>{`
@@ -21,6 +21,5 @@ export default {
       `}</style>
     </footer>
   ),
-  navs: [
-  ]
+  navs: []
 }

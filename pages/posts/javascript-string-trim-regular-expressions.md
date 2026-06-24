@@ -1,9 +1,9 @@
 ---
-title: "✂️ How to Trim a String in Javascript"
-date: "2022-07-19"
+title: '✂️ How to Trim a String in Javascript'
+date: '2022-07-19'
 description: "Let's explore different ways to trim strings in Javascript"
-tag: "node.js, javascript, string, trim, v8"
-author: "lando"
+tag: 'node.js, javascript, string, trim, v8'
+author: 'Alvin'
 ---
 
 import Head from 'next/head';
@@ -16,8 +16,8 @@ import ReadingTime from '../../components/ReadingTime';
   <meta name="keywords" content="web development, javascript, string, trim, v8" />
   <meta property="og:description" content="Let's explore different ways to trim strings in Javascript" />
   <meta property="og:title" content="How to Trim a String in Javascript" />
-  <link rel="canonical" href="https://www.lando.blog/posts/javascript-string-trim-regular-expressions" />
-  <title>How to Trim a String in Javascript - lando.blog</title>
+  <link rel="canonical" href="https://blog.alvin.land/posts/javascript-string-trim-regular-expressions" />
+  <title>How to Trim a String in Javascript - A.blog</title>
 </Head>
 
 # String.trim
@@ -27,9 +27,11 @@ import ReadingTime from '../../components/ReadingTime';
 <ReadingTime />
 
 ## Problem
+
 Javscript provides the built-in method **trim**, and the newer **trimStart** / **trimEnd** methods [[1]](#sources). These native methods will do a quick job of trimming whitespace and line terminators from the start and end of a string. How does this functionality work, and how would we extend them to trim anything we want?
 
 ## Exploration
+
 Let's first take a look at how Javascript does trimming. The ECMAScript standard (2015) [[2]](#sources) describes the trim method as a function that takes a String input and returns a copy of the input "with both leading and trailing white space removed. The definition of white space is the union of WhiteSpace and LineTerminator." So... space bar and enter key, done. right? not quite. Strings in Javascript are interpreted as "UTF-16 encoded code points" so we must include all possible values in this sequence mapping. Here are the definitions of whitespace and line terminators:
 
 Table 32 — White Space Code Points [[3]](#sources)
@@ -88,23 +90,27 @@ which roughly translates in Javscript to:
 
 ```js
 function faux_v8_trim(str, mode) {
-  const length = str.length;
-  let left = 0;
+  const length = str.length
+  let left = 0
   if (mode === TRIM || mode === TRIMSTART) {
-    while (left < length &&
-      isWhiteSpaceOrLineTerminator(str.charCodeAt(left))) {
-      left++;
+    while (
+      left < length &&
+      isWhiteSpaceOrLineTerminator(str.charCodeAt(left))
+    ) {
+      left++
     }
   }
 
-  let right = length;
+  let right = length
   if (mode === TRIM || mode === TRIMEND) {
-    while (right > left &&
-      isWhiteSpaceOrLineTerminator(str.charCodeAt(right - 1))) {
-      right--;
+    while (
+      right > left &&
+      isWhiteSpaceOrLineTerminator(str.charCodeAt(right - 1))
+    ) {
+      right--
     }
   }
-  return str.substring(left, right);
+  return str.substring(left, right)
 }
 ```
 
@@ -118,17 +124,20 @@ Now we know how trim works under the hood. If given the task of implementing tri
 
 ### Regular Expressions
 
-To many, regex seems like the obvious choice, especially since the metacharacter ```\s``` will be very helpful.
+To many, regex seems like the obvious choice, especially since the metacharacter `\s` will be very helpful.
 
 ```js
 basic_re = /^[\s]+|[\s]+$/g
 ```
+
 this will get flagged by some code linters due to regex operation precedence: "In cases where it is intended that the anchors only apply to one alternative each, adding (non-capturing) groups around the anchors and the parts that they apply to will make it explicit which parts are anchored and avoid readers misunderstanding the precedence or changing it because they mistakenly assume the precedence was not intended." [[7]](#sources)
 
 so we can adjust it to:
+
 ```js
 noncap_group = /(?:^[\s]+)|(?:[\s]+$)/g
 ```
+
 This regex is the most concise, but not always the most efficient since it will match twice if there is whitespace at both ends of the string.
 
 We can also break this up into two operations:
@@ -161,7 +170,7 @@ function non_re_trim(str) {
 }
 ```
 
-note the use of ```indexOf``` to search for whitespace and ```slice``` to render the final result
+note the use of `indexOf` to search for whitespace and `slice` to render the final result
 
 The main weakness of this version is long whitespace at the end of the string.
 
@@ -195,7 +204,6 @@ Native trim and its JS couterpart are by far the fastest, next is the non-regex 
 | space at both ends      | double_regex | 4,247,326  | ±1.63%    |
 | end space only          | double_regex | 4,050,811  | ±2.53%    |
 
-
 ---
 
 ## Conclusion
@@ -225,4 +233,5 @@ Sometimes the need arises for us to extend built-in functionality. Deep diving i
 <ScrollTop />
 
 ---
-*side note: Am I the only person who thinks "start" should only go with "finish" and "begin" with "end"? "start...end" seems a little off...*
+
+_side note: Am I the only person who thinks "start" should only go with "finish" and "begin" with "end"? "start...end" seems a little off..._

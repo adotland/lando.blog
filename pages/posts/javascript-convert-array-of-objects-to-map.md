@@ -1,9 +1,9 @@
 ---
-title: "📍 Maps in Javascript: Converting Arrays of Objects"
-date: "2022-06-26"
-description: "Using Maps in Javascript to make object data lookup more efficient"
-tag: "web development, javascript, map, array, object"
-author: "lando"
+title: '📍 Maps in Javascript: Converting Arrays of Objects'
+date: '2022-06-26'
+description: 'Using Maps in Javascript to make object data lookup more efficient'
+tag: 'web development, javascript, map, array, object'
+author: 'Alvin'
 ---
 
 import Head from 'next/head';
@@ -16,8 +16,8 @@ import ReadingTime from '../../components/ReadingTime';
   <meta name="keywords" content="web development, javascript, map, array, object" />
   <meta property="og:description" content="Using Maps in Javascript to make object data lookup more efficient" />
   <meta property="og:title" content="Maps in Javascript: Converting Arrays of Objects" />
-  <link rel="canonical" href="https://www.lando.blog/posts/javascript-convert-array-of-objects-to-map" />
-  <title>Maps in Javascript: Converting Arrays of Objects - lando.blog</title>
+  <link rel="canonical" href="https://blog.alvin.land/posts/javascript-convert-array-of-objects-to-map" />
+  <title>Maps in Javascript: Converting Arrays of Objects - A.blog</title>
 </Head>
 
 # Array -> Map
@@ -45,10 +45,10 @@ SELECT id,age from Users
 ```
 
 ```js
-const userAgeArray = await SOME_ORM.users.getAll(['id', 'age']);
+const userAgeArray = await SOME_ORM.users.getAll(['id', 'age'])
 // [{id: 1, age: 10}, {id: 2, age: 20}, {id: 3, age: 30}]
 
-const userIdArray = [1,2,3] // from some other source
+const userIdArray = [1, 2, 3] // from some other source
 ```
 
 In the above example, we may think to adjust our SQL query to give us exactly the age data needed, in exactly the right order by id
@@ -58,9 +58,10 @@ However, in doing that, your two datasources are not strongly coupled. Depending
 ```js
 // ASSUMING IN ORDER
 userIdArray.forEach((id, index) => {
-  console.log(userIdArray[index], userAgeArray[index]);
+  console.log(userIdArray[index], userAgeArray[index])
 })
 ```
+
 If we don't want to assume data is in order, one may think to use Array.filter() on the age list in order to get the correct object in the loop:
 
 ```js
@@ -70,6 +71,7 @@ userIdArray.forEach((id, index) => {
   console.log(userIdArray[index], ageData[0].age)
 })
 ```
+
 The above solution is not as clean, and more importantly, very costly in doing a filter call for every iteration.
 
 A more general approach that does not need to assume data is in order is to create a map of the database results array.
@@ -82,25 +84,27 @@ const userAgeObj = userAgeArray.reduce((a, c) => {
   return a
 }, {})
 ```
+
 We now have an object keyed by id that we can use to directly access the data we need in our loop:
 
 ```js
 // OBJECT
 userIdArray.forEach((id) => {
-  console.log(id, userAgeObj[id].age);
+  console.log(id, userAgeObj[id].age)
 })
 ```
+
 We can take this a step further and use the [ES6/ES2015 Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) data type
 
 ```javascript
 const userAgeMap = userAgeArray.reduce((a, c) => {
   a.set(c.id, c)
   return a
-}, new Map)
+}, new Map())
 
 // MAP
 userIdArray.forEach((id) => {
-  console.log(id, userAgeMap.get(id).age);
+  console.log(id, userAgeMap.get(id).age)
 })
 ```
 
@@ -127,11 +131,11 @@ Given the above solutions with 10k rows:
 
 | **operation** | **time** |
 | ------------- | -------- |
-| SQL sort*     | 1.5 ms   |
+| SQL sort\*    | 1.5 ms   |
 | create object | 0.787 ms |
 | create map    | 1.622 ms |
 
-* estimated since SQL sort times will vary depending on db type, indexes created, etc.
+- estimated since SQL sort times will vary depending on db type, indexes created, etc.
 
 ---
 
@@ -186,7 +190,5 @@ Final total time (object lookup for-loop): **1.707 ms**
 It appears the plain Javascript constructs were the top performers for this test. When performance matters, i.e. when miliseconds count towards your browser render time, or when you are paying for execution time on a server, the types of considerations taken above can really pay off.
 
 ---
-
-
 
 <ScrollTop />
